@@ -1,0 +1,10 @@
+data<-read.table("household_power_consumption.txt",sep=";", header=TRUE)
+filtered <- data[as.Date(data$Date, "%d/%m/%Y") %in% as.Date(c('2007-02-01', '2007-02-02')),]
+date<-as.Date(filtered$Date,format='%d/%m/%Y')
+library(lubridate)
+data1<-within(filtered,dateandtime<-ymd_hms(paste(date,filtered$Time,sep=" ")))
+global<-as.numeric(as.character(data1$Global_active_power))
+plot(data1$dateandtime,global,type="l",xlab="",ylab="Global Active Power (kilowatts)")
+library(datasets)
+dev.copy(png, file = "plot2.png")
+dev.off()
